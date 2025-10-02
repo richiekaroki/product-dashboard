@@ -366,7 +366,7 @@ MIT License - feel free to use this project for learning or portfolio purposes.
 
 **Richard Karoki**
 
-- GitHub: [@mr-wam](https://github.com/mr-wam)
+- GitHub: [@richiekaroki](https://github.com/richiekaroki)
 - Portfolio: [your-portfolio-url]
 
 ---
