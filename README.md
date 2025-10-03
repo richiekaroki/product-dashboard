@@ -41,7 +41,7 @@ npm start
 - **Instant Search** – Debounced client-side filtering by product title (300ms delay)
 - **Category Filter** – Dropdown filter that works with search using AND logic
 - **Responsive Layout** – Mobile-first design, grid adjusts from 1 to 4 columns
-- **Dark Mode** – Theme toggle with localStorage persistence and system preference detection
+- **Dark Mode** – Theme toggle with localStorage persistence and system preference detection ( not completed )
 - **Optimized Performance** – React Query caching, Next.js Image optimization, skeleton loaders
 - **Accessible** – Semantic HTML, ARIA labels, alt text, keyboard navigation
 - **Modern UI** – Tailwind v4 utility-first styling with smooth transitions
@@ -156,7 +156,7 @@ See **[docs/ASSESSMENT.md](./docs/ASSESSMENT.md)** for:
 | Loading States | Skeleton placeholders | ✅ |
 | Error Handling | Retry button, friendly messages | ✅ |
 | Responsive Design | Mobile-first (1-4 cols) | ✅ |
-| Dark Mode (Optional) | Implemented with persistence | ✅ |
+| Dark Mode (Optional) | Implemented with persistence | ❌ |
 
 ---
 
@@ -336,7 +336,7 @@ npm run lint       # Run ESLint
 ### Goes Above & Beyond:
 
 - Custom `ApiError` class with status codes
-- Dark mode with system preference detection
+- Dark mode with system preference detection ( not completed )
 - Breadcrumb navigation
 - Back to top button
 - Social media links in footer
@@ -367,7 +367,6 @@ MIT License - feel free to use this project for learning or portfolio purposes.
 **Richard Karoki**
 
 - GitHub: [@richiekaroki](https://github.com/richiekaroki)
-- Portfolio: [your-portfolio-url]
 
 ---
 
@@ -380,4 +379,4 @@ MIT License - feel free to use this project for learning or portfolio purposes.
 
 ---
 
-**Built with care for the Frontend Developer Assessment** 🚀
+**Built with care for the Frontend Developer Assessment**
