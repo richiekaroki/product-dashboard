@@ -1,71 +1,67 @@
-# ======================
-# Node & Dependencies
-# ======================
+# ─────────────
+# Dependencies
+# ─────────────
 node_modules/
-.pnpm-store/
-.pnp/
+.pnp
 .pnp.js
 
-# ======================
-# Build / Output
-# ======================
+# ─────────────
+# Build outputs
+# ─────────────
 .next/
 out/
 dist/
-
-# Turbopack (build + cache)
-.next/cache/
 .next-turbopack/
 .out-turbopack/
 dist-turbopack/
-.turbo/
 .turbopack/
-.cache/
 
-# ======================
-# Logs / Debug
-# ======================
+# ─────────────
+# Cache
+# ─────────────
+.next/cache/
+.cache/
+.turbo/
+.pnpm-store/
+*.tsbuildinfo
+
+# ─────────────
+# Logs
+# ─────────────
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# ======================
+# ─────────────
 # Environment
-# ======================
+# ─────────────
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# ======================
-# Testing
-# ======================
-coverage/
-
-# ======================
-# TypeScript
-# ======================
-*.tsbuildinfo
-
-# ======================
-# Tailwind
-# ======================
-tailwind.config.js.timestamp*
-
-# ======================
+# ─────────────
 # Editors / OS
-# ======================
+# ─────────────
 .vscode/
 .idea/
 *.swp
 .DS_Store
 Thumbs.db
 
-# ======================
-# Package Manager (optional - better to keep one lockfile)
+# ─────────────
+# Lockfiles (choose ONE package manager)
+# ─────────────
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# ─────────────
+# Misc
+# ─────────────
 lerna.json
 turbo.json
+tailwind.config.js.timestamp*
