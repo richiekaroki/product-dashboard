@@ -13,8 +13,8 @@ html {
 }
 
 body {
-  @apply bg-white text-gray-900 transition-colors duration-300 min-h-screen;
-  font-family: system-ui, -apple-system, sans-serif; /* Add this line */
+  @apply bg-white text-gray-900 transition-colors duration-200 min-h-screen;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
 html.dark body {
@@ -23,8 +23,8 @@ html.dark body {
 
 /* Rest of your CSS remains the same */
 .card {
-  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 
-         rounded-lg shadow-sm dark:shadow-gray-900/30 p-4 transition-colors duration-300;
+  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800
+         rounded-lg shadow-sm dark:shadow-gray-900/30 p-4 transition-colors duration-200;
 }
 
 .btn {

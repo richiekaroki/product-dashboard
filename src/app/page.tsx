@@ -1,18 +1,17 @@
 // src/app/page.tsx
 "use client";
 
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import ProductGrid from "../components/ProductGrid";
 import SearchBar from "../components/SearchBar";
 
-export default function HomePage() {
+function HomePageContent() {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
-  // Check if there's a search query from global search
   useEffect(() => {
     const querySearch = searchParams.get("search");
     if (querySearch) {
@@ -41,5 +40,13 @@ export default function HomePage() {
       {/* Product Grid */}
       <ProductGrid search={search} category={category} />
     </main>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div className="p-4 max-w-7xl mx-auto">Loading...</div>}>
+      <HomePageContent />
+    </Suspense>
   );
 }

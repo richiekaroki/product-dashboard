@@ -20,8 +20,8 @@ export default function ProductCard({ product }: { product: Product }) {
       <h2 className="font-medium truncate text-gray-900 dark:text-white">
         {product.title}
       </h2>
-      <p className="text-brand font-semibold">${product.price}</p>
-      <p className="text-sm text-muted dark:text-gray-400">
+      <p className="text-gray-900 dark:text-white font-semibold">${product.price}</p>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
         ⭐ {product.rating}
       </p>
       <ProductBadges product={product} />
