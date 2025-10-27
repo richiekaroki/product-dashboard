@@ -1,16 +1,42 @@
-// src/app/page.tsx
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../lib/api";
+import { getPriceRange } from "../lib/productUtils";
 import CategoryFilter from "../components/CategoryFilter";
 import ProductGrid from "../components/ProductGrid";
 import SearchBar from "../components/SearchBar";
+import SortDropdown, { SortOption } from "../components/SortDropdown";
+import ViewToggle, { ViewMode } from "../components/ViewToggle";
+import PriceRangeFilter from "../components/PriceRangeFilter";
 
 function HomePageContent() {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [sortBy, setSortBy] = useState<SortOption>('name-asc');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(10000);
+
+  const { data } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
+
+  const priceRange = useMemo(() => {
+    if (!data?.products) return { min: 0, max: 10000 };
+    return getPriceRange(data.products);
+  }, [data]);
+
+  useEffect(() => {
+    if (priceRange) {
+      setPriceMin(priceRange.min);
+      setPriceMax(priceRange.max);
+    }
+  }, [priceRange]);
 
   useEffect(() => {
     const querySearch = searchParams.get("search");
@@ -31,14 +57,37 @@ function HomePageContent() {
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        <SearchBar value={search} onChange={setSearch} />
-        <CategoryFilter value={category} onChange={setCategory} />
+      {/* Filters and Controls */}
+      <div className="space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+          <SearchBar value={search} onChange={setSearch} />
+          <CategoryFilter value={category} onChange={setCategory} />
+        </div>
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <SortDropdown value={sortBy} onChange={setSortBy} />
+            <PriceRangeFilter
+              min={priceMin}
+              max={priceMax}
+              onChange={(min, max) => {
+                setPriceMin(min);
+                setPriceMax(max);
+              }}
+            />
+          </div>
+          <ViewToggle value={viewMode} onChange={setViewMode} />
+        </div>
       </div>
 
       {/* Product Grid */}
-      <ProductGrid search={search} category={category} />
+      <ProductGrid
+        search={search}
+        category={category}
+        sortBy={sortBy}
+        viewMode={viewMode}
+        priceMin={priceMin}
+        priceMax={priceMax}
+      />
     </main>
   );
 }
