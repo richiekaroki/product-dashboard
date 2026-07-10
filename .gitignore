@@ -1,67 +1,75 @@
-# ─────────────
-# Dependencies
-# ─────────────
+# ==================== DEPENDENCIES ====================
 node_modules/
-.pnp
-.pnp.js
+*/node_modules/
 
-# ─────────────
-# Build outputs
-# ─────────────
-.next/
-out/
+# ==================== BUILD OUTPUTS ====================
 dist/
-.next-turbopack/
-.out-turbopack/
-dist-turbopack/
-.turbopack/
+dist-ssr/
+build/
+*.tgz
+*.tar.gz
 
-# ─────────────
-# Cache
-# ─────────────
-.next/cache/
-.cache/
-.turbo/
-.pnpm-store/
-*.tsbuildinfo
-
-# ─────────────
-# Logs
-# ─────────────
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# ─────────────
-# Environment
-# ─────────────
+# ==================== ENVIRONMENT VARIABLES ====================
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
 
-# ─────────────
-# Editors / OS
-# ─────────────
+# ==================== IDE & EDITOR ====================
 .vscode/
 .idea/
 *.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ==================== OS GENERATED FILES ====================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+Desktop.ini
 
-# ─────────────
-# Lockfiles (choose ONE package manager)
-# ─────────────
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# ==================== LOGS ====================
+logs
+*.log
 
-# ─────────────
-# Misc
-# ─────────────
-lerna.json
-turbo.json
-tailwind.config.js.timestamp*
+# ==================== RUNTIME DATA ====================
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ==================== COVERAGE & TESTING ====================
+coverage/
+*/coverage/
+.nyc_output/
+*.lcov
+playwright-report/
+test-results/
+
+# ==================== TYPESCRIPT ====================
+*.tsbuildinfo
+
+# ==================== TEMPORARY FILES ====================
+tmp/
+temp/
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# ==================== EDITOR EXTENSIONS ====================
+!.vscode/extensions.json
+
+# ==================== AGENT / SKILL TOOLING ====================
+.agents/
+.impeccable/
+.playwright-mcp/
+skills-lock.json
+opencode.json
