@@ -9,6 +9,11 @@ build/
 *.tgz
 *.tar.gz
 
+# ==================== NEXT.JS ====================
+.next/
+out/
+next-env.d.ts
+
 # ==================== ENVIRONMENT VARIABLES ====================
 .env
 .env.local
