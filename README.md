@@ -102,7 +102,6 @@ product-dashboard/
 │       └── global.d.ts             # Module declarations
 │
 ├── docs/
-│   ├── README.md                   # Architecture decisions
 │   └── ASSESSMENT.md               # Requirements mapping
 │
 ├── .env.local                      # Environment variables
@@ -115,20 +114,6 @@ product-dashboard/
 ---
 
 ## 📖 Documentation
-
-### Architecture Documentation
-
-See **[docs/README.md](./docs/README.md)** for detailed information about:
-
-- Folder structure and component organization
-- Search and filter logic (client-side, debounced, AND logic)
-- Data fetching and caching strategy (React Query)
-- UI/UX design decisions and responsiveness
-- Dark mode implementation
-- Error handling approach
-- Type safety with TypeScript
-- Accessibility features
-- Production considerations
 
 ### Assessment Mapping
 
@@ -231,6 +216,188 @@ Desktop:   3-4 columns
 - Empty states with helpful messages
 - Error states with retry actions
 - Smooth transitions and animations
+
+---
+
+## 🔍 Technical Deep Dive
+
+### Search & Filter Logic
+
+**Strategy: Client-Side Filtering**
+
+The DummyJSON API returns ~100 products in a single request. Client-side filtering provides instant feedback, reduced API calls, better UX, and works offline after initial load.
+
+**Search with Debouncing** (`SearchBar.tsx`):
+
+```typescript
+const [localValue, setLocalValue] = useState(value);
+
+useEffect(() => {
+  const timeout = setTimeout(() => onChange(localValue), 300);
+  return () => clearTimeout(timeout);
+}, [localValue, onChange]);
+```
+
+**AND Logic** (`ProductGrid.tsx`):
+
+```typescript
+const products = data.products
+  .filter((p) =>
+    search ? p.title.toLowerCase().includes(search.toLowerCase()) : true
+  )
+  .filter((p) => (category === "all" ? true : p.category === category));
+```
+
+**Filter Flow:**
+
+```
+User types "phone" + Selects "smartphones"
+        ↓
+Debounce timer (300ms)
+        ↓
+Filter 1: title.includes("phone")
+        ↓
+Filter 2: category === "smartphones"
+        ↓
+Display matching products
+```
+
+---
+
+### Data Fetching & Caching
+
+**React Query Configuration** (`lib/queryClient.ts`):
+
+```typescript
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 2,
+      staleTime: 1000 * 60 * 2, // 2 minutes
+    },
+  },
+});
+```
+
+**Axios Interceptors** (`lib/api.ts`):
+
+```typescript
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    switch (status) {
+      case 404: throw new ApiError("Resource not found", 404);
+      case 500: throw new ApiError("Server error", 500);
+    }
+  }
+);
+```
+
+**Cache Strategy:**
+
+```
+First Load:     API → Cache → Display (with loading state)
+Return Visit:   Check Cache → Display Instantly (if fresh)
+After 2 mins:   Cache → Display + Revalidate in Background
+```
+
+---
+
+### Dark Mode Implementation
+
+**Strategy** (`hooks/useDarkMode.ts`):
+
+1. Detect system preference via `window.matchMedia("(prefers-color-scheme: dark)")`
+2. Check `localStorage` for saved theme
+3. Apply `.dark` class to `document.documentElement`
+4. Prevents FOUC with `suppressHydrationWarning`
+
+**Tailwind Config:**
+
+```typescript
+darkMode: "class", // Manual control via .dark class
+```
+
+**Usage:**
+
+```tsx
+<div className="bg-white dark:bg-gray-950">
+  <p className="text-gray-900 dark:text-gray-50">Content</p>
+</div>
+```
+
+---
+
+### Error Handling (Three-Layer Approach)
+
+**1. API Layer** – Custom `ApiError` class with status codes
+
+**2. React Query Layer** – Automatic retry (2 attempts)
+
+**3. UI Layer** – `ErrorMessage` component with retry button
+
+| Error Type | User Message | Action |
+|------------|-------------|--------|
+| Network Timeout | "Unable to connect. Check your internet." | Retry button |
+| 404 Not Found | "Product not found." | Back to home |
+| 500 Server Error | "Server error. Try again later." | Retry button |
+| Unknown Error | "Something went wrong." | Retry button |
+
+---
+
+### Type Safety
+
+**Product Interface** (`types/product.ts`):
+
+```typescript
+export interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+}
+```
+
+**API Response:**
+
+```typescript
+export interface ProductsResponse {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+```
+
+React Query infers types automatically — `data` is typed as `ProductsResponse | undefined`.
+
+---
+
+### Accessibility
+
+- **Semantic HTML**: `<main>`, `<nav>`, `<article>`, `<h2>`
+- **ARIA Labels**: on buttons, inputs, nav elements
+- **Keyboard Navigation**: all interactive elements focusable, visible focus states (`focus:ring-2`), logical tab order
+- **Screen Readers**: `sr-only` text, descriptive `alt` attributes
+- **Color Contrast**: WCAG AA compliant in both light and dark modes
+
+---
+
+### Performance Optimizations
+
+- **Image Optimization**: Next.js `<Image>` with lazy loading, responsive sizes, WebP conversion
+- **Code Splitting**: Automatic with App Router, each route is a separate bundle
+- **Caching**: React Query with 2-minute stale time reduces API calls
+- **Bundle Size**: Tailwind purges unused CSS, Lucide React tree-shakeable icons
+- **Search Debouncing**: 300ms delay prevents excessive re-renders
+- **Skeleton Loaders**: Show content structure during loading, prevent layout shift
 
 ---
 

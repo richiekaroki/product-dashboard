@@ -48,6 +48,6 @@ This document maps each **assessment requirement** to its **implementation** in 
 - **Client-side filtering** used as per assessment instructions.  
 - **Pagination** omitted (all ~100 products fetched at once) → acceptable for dataset size.  
 - **Dark mode** added as bonus feature.  
-- **Production-ready considerations** (pagination, SSR, testing) documented in `docs/README.md`.  
+- **Production-ready considerations** (pagination, SSR, testing) documented in the root `README.md`.  
 
 ---

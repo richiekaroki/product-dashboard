@@ -20,10 +20,10 @@ export default function RelatedProducts({ currentProduct }: RelatedProductsProps
   if (isLoading) {
     return (
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+        <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-5">
           Related Products
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
           {Array.from({ length: 4 }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}
@@ -40,10 +40,10 @@ export default function RelatedProducts({ currentProduct }: RelatedProductsProps
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-5">
         Related Products
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
         {relatedProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

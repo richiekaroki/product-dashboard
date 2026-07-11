@@ -10,7 +10,7 @@ interface SortDropdownProps {
 export default function SortDropdown({ value, onChange }: SortDropdownProps) {
   return (
     <div className="flex items-center gap-2">
-      <label htmlFor="sort" className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
+      <label htmlFor="sort" className="text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">
         Sort by:
       </label>
       <select
@@ -18,6 +18,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
         value={value}
         onChange={(e) => onChange(e.target.value as SortOption)}
         className="input text-sm"
+        aria-label="Sort by"
       >
         <option value="name-asc">Name (A-Z)</option>
         <option value="name-desc">Name (Z-A)</option>

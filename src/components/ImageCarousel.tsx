@@ -24,7 +24,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
 
   return (
     <div className="relative w-full">
-      <div className="relative w-full h-96 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
+      <div className="relative w-full h-96 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden">
         <Image
           src={images[currentIndex]}
           alt={`${alt} - Image ${currentIndex + 1}`}
@@ -37,32 +37,32 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-700 p-2 rounded-full shadow-lg transition-colors"
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 p-2.5 rounded-xl shadow-lg transition-all duration-150 hover:scale-105"
               aria-label="Previous image"
             >
-              <ChevronLeft className="text-gray-900 dark:text-white" size={24} />
+              <ChevronLeft className="text-slate-900 dark:text-white" size={20} />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-700 p-2 rounded-full shadow-lg transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 p-2.5 rounded-xl shadow-lg transition-all duration-150 hover:scale-105"
               aria-label="Next image"
             >
-              <ChevronRight className="text-gray-900 dark:text-white" size={24} />
+              <ChevronRight className="text-slate-900 dark:text-white" size={20} />
             </button>
           </>
         )}
       </div>
 
       {images.length > 1 && (
-        <div className="flex gap-2 mt-4 overflow-x-auto">
+        <div className="flex gap-2 mt-4 overflow-x-auto pb-1">
           {images.map((img, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden border-2 transition-colors ${
+              className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-150 ${
                 idx === currentIndex
-                  ? 'border-gray-900 dark:border-white'
-                  : 'border-transparent hover:border-gray-400 dark:hover:border-gray-600'
+                  ? 'border-indigo-500 dark:border-indigo-400 shadow-sm'
+                  : 'border-transparent hover:border-slate-300 dark:hover:border-slate-600 opacity-60 hover:opacity-100'
               }`}
             >
               <Image
@@ -78,7 +78,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
       )}
 
       {images.length > 1 && (
-        <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <div className="text-center mt-3 text-xs text-slate-500 dark:text-slate-400 font-medium tabular-nums">
           {currentIndex + 1} / {images.length}
         </div>
       )}

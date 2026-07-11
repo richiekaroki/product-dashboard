@@ -1,22 +1,19 @@
 import { Product } from "../types/product";
-import { SortOption } from "../components/SortDropdown";
 
-export function sortProducts(products: Product[], sortBy: SortOption): Product[] {
-  const sorted = [...products];
-
+export function sortProducts(products: Product[], sortBy: string): Product[] {
   switch (sortBy) {
     case 'name-asc':
-      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+      return products.toSorted((a, b) => a.title.localeCompare(b.title));
     case 'name-desc':
-      return sorted.sort((a, b) => b.title.localeCompare(a.title));
+      return products.toSorted((a, b) => b.title.localeCompare(a.title));
     case 'price-asc':
-      return sorted.sort((a, b) => a.price - b.price);
+      return products.toSorted((a, b) => a.price - b.price);
     case 'price-desc':
-      return sorted.sort((a, b) => b.price - a.price);
+      return products.toSorted((a, b) => b.price - a.price);
     case 'rating-desc':
-      return sorted.sort((a, b) => b.rating - a.rating);
+      return products.toSorted((a, b) => b.rating - a.rating);
     default:
-      return sorted;
+      return products;
   }
 }
 
@@ -33,9 +30,17 @@ export function getRelatedProducts(products: Product[], currentProduct: Product,
 export function getPriceRange(products: Product[]): { min: number; max: number } {
   if (products.length === 0) return { min: 0, max: 1000 };
 
-  const prices = products.map(p => p.price);
+  let min = products[0].price;
+  let max = products[0].price;
+
+  for (let i = 1; i < products.length; i++) {
+    const price = products[i].price;
+    if (price < min) min = price;
+    if (price > max) max = price;
+  }
+
   return {
-    min: Math.floor(Math.min(...prices)),
-    max: Math.ceil(Math.max(...prices))
+    min: Math.floor(min),
+    max: Math.ceil(max),
   };
 }

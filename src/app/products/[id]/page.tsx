@@ -4,6 +4,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { use } from "react";
+import { ArrowLeft, Star } from "lucide-react";
 import ErrorMessage from "../../../components/ErrorMessage";
 import ProductBadges from "../../../components/ProductBadges";
 import SkeletonCard from "../../../components/SkeletonCard";
@@ -24,81 +25,92 @@ export default function ProductDetailsPage({
   const { data, isLoading, isError, refetch } = useQuery<Product>({
     queryKey: ["product", id],
     queryFn: () => getProductById(id),
-    enabled: !!id, // only run if id exists
+    enabled: !!id,
   });
 
   if (isLoading) return <SkeletonCard />;
   if (isError || !data) return <ErrorMessage onRetry={refetch} />;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
       {/* Back button */}
       <button
         onClick={() => router.back()}
-        className="mb-4 text-sm text-gray-700 hover:underline dark:text-gray-300"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-150"
       >
-        ← Back
+        <ArrowLeft className="w-4 h-4" />
+        Back
       </button>
 
       {/* Product Details */}
-      <div className="card">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="card p-0 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
           {/* Image Carousel */}
-          <div>
+          <div className="p-6">
             <ImageCarousel images={data.images} alt={data.title} />
           </div>
 
           {/* Product Info */}
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              {data.title}
-            </h1>
-
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                ⭐ {data.rating}
-              </span>
-              <span className="text-gray-400 dark:text-gray-600">|</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                {data.brand}
-              </span>
-            </div>
-
-            <div className="mb-6">
-              <StockIndicator stock={data.stock} />
-            </div>
-
-            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              {data.description}
-            </p>
-
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-6">
-              <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                  ${data.price}
-                </span>
-                {data.discountPercentage && data.discountPercentage > 0 && (
-                  <span className="text-lg text-green-600 dark:text-green-400 font-semibold">
-                    {data.discountPercentage}% OFF
+          <div className="p-6 lg:border-l border-slate-200/80 dark:border-slate-800/80">
+            <div className="space-y-5">
+              {/* Title and Rating */}
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight leading-tight" style={{ textWrap: 'balance' }}>
+                  {data.title}
+                </h1>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300 tabular-nums">
+                      {data.rating}
+                    </span>
+                  </div>
+                  <span className="text-slate-300 dark:text-slate-600">|</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">
+                    {data.brand}
                   </span>
-                )}
+                </div>
               </div>
-            </div>
 
-            <ProductBadges product={data} />
+              {/* Stock */}
+              <StockIndicator stock={data.stock} />
 
-            <div className="mt-8 grid grid-cols-2 gap-4 text-sm">
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <p className="text-gray-600 dark:text-gray-400 mb-1">Category</p>
-                <p className="font-semibold text-gray-900 dark:text-white capitalize">
-                  {data.category}
-                </p>
+              {/* Description */}
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {data.description}
+              </p>
+
+              {/* Price */}
+              <div className="border-t border-slate-200/80 dark:border-slate-800/80 pt-5">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+                    ${data.price.toFixed(2)}
+                  </span>
+                  {data.discountPercentage && data.discountPercentage > 0 && (
+                    <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-2 py-0.5 rounded-md">
+                      {Math.round(data.discountPercentage)}% OFF
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <p className="text-gray-600 dark:text-gray-400 mb-1">Brand</p>
-                <p className="font-semibold text-gray-900 dark:text-white">
-                  {data.brand}
-                </p>
+
+              {/* Badges */}
+              <ProductBadges product={data} />
+
+              {/* Category & Brand Info */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Category</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white capitalize">
+                    {data.category}
+                  </p>
+                </div>
+                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Brand</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                    {data.brand}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

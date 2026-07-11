@@ -2,7 +2,7 @@
 import axios from "axios";
 import { Product, ProductsResponse } from "../types/product";
 
-const BASE_URL = "https://dummyjson.com/products";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://dummyjson.com/products";
 
 // Custom error class for API errors
 export class ApiError extends Error {
@@ -46,60 +46,18 @@ apiClient.interceptors.response.use(
 
 // Fetch all products
 export async function getProducts(): Promise<ProductsResponse> {
-  try {
-    const { data } = await apiClient.get<ProductsResponse>(BASE_URL);
-    return data;
-  } catch (error) {
-    // Re-throw the error to be handled by React Query
-    throw error;
-  }
+  const { data } = await apiClient.get<ProductsResponse>(BASE_URL);
+  return data;
 }
 
 // Fetch product by ID
 export async function getProductById(id: string | number): Promise<Product> {
-  try {
-    // Validate ID
-    if (!id || id === "undefined") {
-      throw new ApiError("Invalid product ID");
-    }
-
-    const { data } = await apiClient.get<Product>(`${BASE_URL}/${id}`);
-    return data;
-  } catch (error) {
-    throw error;
+  if (!id || id === "undefined") {
+    throw new ApiError("Invalid product ID");
   }
+
+  const { data } = await apiClient.get<Product>(`${BASE_URL}/${id}`);
+  return data;
 }
 
-// Search products (optional enhancement)
-export async function searchProducts(query: string): Promise<ProductsResponse> {
-  try {
-    if (!query.trim()) {
-      return getProducts(); // Return all products if empty query
-    }
 
-    const { data } = await apiClient.get<ProductsResponse>(
-      `${BASE_URL}/search?q=${encodeURIComponent(query)}`
-    );
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// Get products by category (optional enhancement)
-export async function getProductsByCategory(
-  category: string
-): Promise<ProductsResponse> {
-  try {
-    if (category === "all") {
-      return getProducts();
-    }
-
-    const { data } = await apiClient.get<ProductsResponse>(
-      `${BASE_URL}/category/${encodeURIComponent(category)}`
-    );
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}

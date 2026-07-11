@@ -1,6 +1,7 @@
 // src/components/SearchBar.tsx
 "use client";
 
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function SearchBar({
@@ -18,13 +19,16 @@ export default function SearchBar({
   }, [localValue, onChange]);
 
   return (
-    <input
-      type="text"
-      placeholder="Search products..."
-      aria-label="Search products"
-      value={localValue}
-      onChange={(e) => setLocalValue(e.target.value)}
-      className="input md:w-64"
-    />
+    <div className="relative flex-1 max-w-md">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+      <input
+        type="text"
+        placeholder="Search products..."
+        aria-label="Search products"
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
+        className="input pl-9 md:w-64"
+      />
+    </div>
   );
 }

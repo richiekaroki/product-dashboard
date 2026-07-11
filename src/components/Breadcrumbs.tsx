@@ -8,10 +8,7 @@ import { usePathname } from "next/navigation";
 export default function Breadcrumbs() {
   const pathname = usePathname();
 
-  // Don't show breadcrumbs on home page
-  if (pathname === "/") {
-    return null;
-  }
+  if (pathname === "/") return null;
 
   const pathSegments = pathname.split("/").filter(Boolean);
 
@@ -27,16 +24,16 @@ export default function Breadcrumbs() {
   });
 
   return (
-    <nav aria-label="Breadcrumb" className="border-b border-gray-200 dark:border-gray-800">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2">
-        <ol className="flex items-center gap-2 text-sm">
+    <nav aria-label="Breadcrumb" className="border-b border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-[#0B0F14]/50">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5">
+        <ol className="flex items-center gap-1.5 text-sm">
           {/* Home */}
           <li>
             <Link
               href="/"
-              className="flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+              className="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-150"
             >
-              <Home className="w-4 h-4" />
+              <Home className="w-3.5 h-3.5" />
               <span className="sr-only md:not-sr-only">Home</span>
             </Link>
           </li>
@@ -45,14 +42,14 @@ export default function Breadcrumbs() {
           {breadcrumbItems.map((item, index) => {
             const isLast = index === breadcrumbItems.length - 1;
             return (
-              <li key={item.href} className="flex items-center gap-2">
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+              <li key={item.href} className="flex items-center gap-1.5">
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
                 {isLast ? (
-                  <span className="text-gray-900 dark:text-white font-medium">{item.label}</span>
+                  <span className="text-slate-900 dark:text-white font-medium">{item.label}</span>
                 ) : (
                   <Link
                     href={item.href}
-                    className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                    className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-150"
                   >
                     {item.label}
                   </Link>
@@ -65,4 +62,3 @@ export default function Breadcrumbs() {
     </nav>
   );
 }
-

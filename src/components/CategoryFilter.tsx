@@ -1,47 +1,36 @@
 // src/components/CategoryFilter.tsx
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getProducts } from "../lib/api";
 import { Product } from "../types/product";
 
 export default function CategoryFilter({
+  products,
   value,
   onChange,
 }: {
+  products: Product[];
   value: string;
   onChange: (val: string) => void;
 }) {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
-
   const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
-    if (data?.products) {
+    if (products.length > 0) {
       const uniqueCats = Array.from(
-        new Set(data.products.map((p: Product) => p.category))
+        new Set(products.map((p) => p.category))
       );
       setCategories(uniqueCats);
     }
-  }, [data]);
+  }, [products]);
 
-  if (isLoading)
+  if (products.length === 0) {
     return (
-      <select className="input" disabled>
+      <select className="input md:w-48" disabled>
         <option>Loading...</option>
       </select>
     );
-
-  if (isError || !data)
-    return (
-      <select className="input" disabled>
-        <option>Error</option>
-      </select>
-    );
+  }
 
   return (
     <select

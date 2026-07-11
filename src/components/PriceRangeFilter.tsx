@@ -14,27 +14,31 @@ export default function PriceRangeFilter({ min, max, onChange }: PriceRangeFilte
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      onChange(minValue, maxValue);
+      const clampedMin = Math.max(0, minValue);
+      const clampedMax = Math.max(clampedMin, maxValue);
+      onChange(clampedMin, clampedMax);
     }, 300);
     return () => clearTimeout(timer);
   }, [minValue, maxValue, onChange]);
 
   return (
     <div className="flex items-center gap-3">
-      <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
+      <label className="text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">
         Price:
       </label>
       <div className="flex items-center gap-2">
         <input
           type="number"
+          min={0}
           value={minValue}
           onChange={(e) => setMinValue(Number(e.target.value))}
           placeholder="Min"
           className="input w-20 text-sm"
         />
-        <span className="text-gray-500 dark:text-gray-400">-</span>
+        <span className="text-slate-400 dark:text-slate-500">&ndash;</span>
         <input
           type="number"
+          min={0}
           value={maxValue}
           onChange={(e) => setMaxValue(Number(e.target.value))}
           placeholder="Max"

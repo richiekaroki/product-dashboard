@@ -11,28 +11,30 @@ interface ViewToggleProps {
 
 export default function ViewToggle({ value, onChange }: ViewToggleProps) {
   return (
-    <div className="flex items-center gap-1 border border-gray-300 dark:border-gray-700 rounded-md p-1 bg-white dark:bg-gray-800">
+    <div className="flex items-center gap-0.5 border border-slate-200 dark:border-slate-700 rounded-lg p-0.5 bg-white dark:bg-slate-800">
       <button
         onClick={() => onChange('grid')}
-        className={`p-2 rounded transition-colors ${
+        className={`p-2 rounded-md transition-all duration-150 ${
           value === 'grid'
-            ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
-            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+            ? 'bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 shadow-sm'
+            : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'
         }`}
+        aria-pressed={value === 'grid'}
         aria-label="Grid view"
       >
-        <LayoutGrid size={18} />
+        <LayoutGrid size={16} />
       </button>
       <button
         onClick={() => onChange('list')}
-        className={`p-2 rounded transition-colors ${
+        className={`p-2 rounded-md transition-all duration-150 ${
           value === 'list'
-            ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
-            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+            ? 'bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 shadow-sm'
+            : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'
         }`}
+        aria-pressed={value === 'list'}
         aria-label="List view"
       >
-        <List size={18} />
+        <List size={16} />
       </button>
     </div>
   );
