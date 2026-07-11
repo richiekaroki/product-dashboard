@@ -141,7 +141,7 @@ See **[docs/ASSESSMENT.md](./docs/ASSESSMENT.md)** for:
 | Loading States | Skeleton placeholders | ✅ |
 | Error Handling | Retry button, friendly messages | ✅ |
 | Responsive Design | Mobile-first (1-4 cols) | ✅ |
-| Dark Mode (Optional) | Implemented with persistence | ❌ |
+| Dark Mode (Optional) | Implemented with persistence | ✅ |
 
 ---
 
